@@ -34,10 +34,10 @@
 					<?php
 					$i = 1;
 					$where = "";
-					if($_SESSION['login_type'] == 2){
-						$where = " where p.manager_id = '{$_SESSION['login_id']}' ";
-					}elseif($_SESSION['login_type'] == 3){
-						$where = " where concat('[',REPLACE(p.user_ids,',','],['),']') LIKE '%[{$_SESSION['login_id']}]%' ";
+					if($_SESSION['login_user_type_id'] == 2){
+						$where = " where p.manager_id = '{$_SESSION['login_user_id']}' ";
+					}elseif($_SESSION['login_user_type_id'] == 3){
+						$where = " where concat('[',REPLACE(p.user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_id']}]%' ";
 					}
 					
 					$stat = array("Pending","Started","On-Progress","On-Hold","Over Due","Done");

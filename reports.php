@@ -31,10 +31,10 @@
                 $i = 1;
                 $stat = array("Pending","Started","On-Progress","On-Hold","Over Due","Done");
                 $where = "";
-                if($_SESSION['login_type'] == 2){
-                  $where = " where manager_id = '{$_SESSION['login_id']}' ";
-                }elseif($_SESSION['login_type'] == 3){
-                  $where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_id']}]%' ";
+                if($_SESSION['login_user_type_id'] == 2){
+                  $where = " where manager_id = '{$_SESSION['login_user_id']}' ";
+                }elseif($_SESSION['login_user_type_id'] == 3){
+                  $where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_id']}]%' ";
                 }
                 $qry = $conn->query("SELECT * FROM project_list $where order by name asc");
                 while($row= $qry->fetch_assoc()):

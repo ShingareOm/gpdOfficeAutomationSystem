@@ -148,7 +148,7 @@ Class Action {
 				if(!in_array($key, array('id','cpass','password')) && !is_numeric($key))
 					$_SESSION['login_'.$key] = $value;
 			}
-					$_SESSION['login_id'] = $id;
+					$_SESSION['login_user_id'] = $id;
 				if(isset($_FILES['img']) && !empty($_FILES['img']['tmp_name']))
 					$_SESSION['login_avatar'] = $fname;
 			return 1;
@@ -349,7 +349,7 @@ Class Action {
 		$data .= ", time_rendered='$dur' ";
 		// echo "INSERT INTO user_productivity set $data"; exit;
 		if(empty($id)){
-			$data .= ", user_id={$_SESSION['login_id']} ";
+			$data .= ", user_id={$_SESSION['login_user_id']} ";
 			
 			$save = $this->db->query("INSERT INTO user_productivity set $data");
 		}else{

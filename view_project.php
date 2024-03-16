@@ -116,7 +116,7 @@ $manager = $manager->num_rows > 0 ? $manager->fetch_array() : array();
 			<div class="card card-outline card-primary">
 				<div class="card-header">
 					<span><b>Task List:</b></span>
-					<?php if($_SESSION['login_type'] != 3): ?>
+					<?php if($_SESSION['login_user_type_id'] != 3): ?>
 					<div class="card-tools">
 						<button class="btn btn-primary bg-gradient-primary btn-sm" type="button" id="new_task"><i class="fa fa-plus"></i> New Task</button>
 					</div>
@@ -171,7 +171,7 @@ $manager = $manager->num_rows > 0 ? $manager->fetch_array() : array();
 					                    <div class="dropdown-menu" style="">
 					                      <a class="dropdown-item view_task" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"  data-task="<?php echo $row['task'] ?>">View</a>
 					                      <div class="dropdown-divider"></div>
-					                      <?php if($_SESSION['login_type'] != 3): ?>
+					                      <?php if($_SESSION['login_user_type_id'] != 3): ?>
 					                      <a class="dropdown-item edit_task" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"  data-task="<?php echo $row['task'] ?>">Edit</a>
 					                      <div class="dropdown-divider"></div>
 					                      <a class="dropdown-item delete_task" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Delete</a>
@@ -206,7 +206,7 @@ $manager = $manager->num_rows > 0 ? $manager->fetch_array() : array();
 						<div class="post">
 
 		                      <div class="user-block">
-		                      	<?php if($_SESSION['login_id'] == $row['user_id']): ?>
+		                      	<?php if($_SESSION['login_user_id'] == $row['user_id']): ?>
 		                      	<span class="btn-group dropleft float-right">
 								  <span class="btndropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
 								    <i class="fa fa-ellipsis-v"></i>

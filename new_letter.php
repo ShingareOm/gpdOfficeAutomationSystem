@@ -27,7 +27,7 @@
               <input type="date" class="form-control form-control-sm" autocomplete="off" name="letter_created_date" value="<?php echo isset($start_date) ? date("Y-m-d",strtotime($start_date)) : '' ?>">
             </div>
           </div>
-        	<?php if($_SESSION['login_type'] == 1 ): ?>
+        	<?php if($_SESSION['login_user_type_id'] == 1 ): ?>
            <div class="col-md-6">
             <div class="form-group">
               <label for="" class="control-label">To Principal</label>
@@ -43,7 +43,7 @@
             </div>
           </div>
       <?php else: ?>
-      	<input type="hidden" name="manager_id" value="<?php echo $_SESSION['login_id'] ?>">
+      	<input type="hidden" name="manager_id" value="<?php echo $_SESSION['login_user_id'] ?>">
       <?php endif; ?>
         </div>
 		<div class="row">

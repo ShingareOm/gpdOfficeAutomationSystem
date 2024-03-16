@@ -36,7 +36,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-            <?php if($_SESSION['login_type'] != 3): ?>
+            <?php if($_SESSION['login_user_type_id'] != 3): ?>
               <li class="nav-item">
                 <a href="./index.php?page=new_letter" class="nav-link nav-new_letter tree-item">
                   <i class="fas fa-angle-right nav-icon"></i>
@@ -58,7 +58,7 @@
                   <p>Task</p>
                 </a>
           </li>
-          <?php if($_SESSION['login_type'] != 3): ?>
+          <?php if($_SESSION['login_user_type_id'] != 3): ?>
            <li class="nav-item">
                 <a href="./index.php?page=reports" class="nav-link nav-reports">
                   <i class="fas fa-th-list nav-icon"></i>
@@ -66,7 +66,7 @@
                 </a>
           </li>
           <?php endif; ?>
-          <?php if($_SESSION['login_type'] == 1): ?>
+          <?php if($_SESSION['login_user_type_id'] == 1): ?>
           <li class="nav-item">
             <a href="#" class="nav-link nav-edit_user">
               <i class="nav-icon fas fa-users"></i>

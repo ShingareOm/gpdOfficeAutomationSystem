@@ -2,7 +2,7 @@
 <div class="col-lg-12">
 	<div class="card card-outline card-success">
 		<div class="card-header">
-            <?php if($_SESSION['login_type'] != 3): ?>
+            <?php if($_SESSION['login_user_type_id'] != 3): ?>
 			<div class="card-tools">
 				<a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="./index.php?page=new_letter"><i class="fa fa-plus"></i> Add New project</a>
 			</div>
@@ -33,10 +33,10 @@
 					$i = 1;
 					$stat = array("","hod","lipik","principal","Done", "reject");
 					$where = "";
-					if($_SESSION['login_type'] == 2){
+					if($_SESSION['login_user_type_id'] == 2){
 						$where = " where letter_creator_user_id = '31' ";
-					}elseif($_SESSION['login_type'] == 3){
-						$where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_id']}]%' ";
+					}elseif($_SESSION['login_user_type_id'] == 3){
+						$where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_id']}]%' ";
 					}
 					// $qry = $conn->query("SELECT * FROM gpd_letters $where order by name asc");
 					$qry = $conn->query("SELECT * FROM gpd_letters  where letter_creator_user_id = '31' order by name asc");
@@ -90,7 +90,7 @@
 		                    <div class="dropdown-menu" style="">
 		                      <a class="dropdown-item view_project" href="./index.php?page=view_project&id=<?php echo $row['id'] ?>" data-id="<?php echo $row['id'] ?>">View</a>
 		                      <div class="dropdown-divider"></div>
-		                      <?php if($_SESSION['login_type'] != 3): ?>
+		                      <?php if($_SESSION['login_user_type_id'] != 3): ?>
 		                      <a class="dropdown-item" href="./index.php?page=edit_project&id=<?php echo $row['id'] ?>">Edit</a>
 		                      <div class="dropdown-divider"></div>
 		                      <a class="dropdown-item delete_project" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>">Delete</a>

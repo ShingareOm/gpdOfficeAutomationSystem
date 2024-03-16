@@ -15,7 +15,7 @@
 							<label for="" class="control-label">Last Name</label>
 							<input type="text" name="user_surname" class="form-control form-control-sm" required value="<?php echo isset($user_surname) ? $user_surname : '' ?>">
 						</div>
-						<?php if($_SESSION['login_type'] == 1): ?>
+						<?php if($_SESSION['login_user_type_id'] == 1): ?>
 						<div class="form-group">
 							<label for="" class="control-label">User Role</label>
 							<select  name="user_type_id" id="type" <?php echo (isset($user_type_id) && $user_type_id == 1) ? 'disabled' : '' ?> class="custom-select custom-select-sm" onchange="checkuser(this)">
@@ -53,7 +53,7 @@
 		                    </div>
 						</div>
 						<div class="form-group d-flex justify-content-center align-items-center">
-							<img src="<?php echo isset($user_profile_pic) ? 'assets/uploads/'.$user_profile_pic :'' ?>" alt="Avatar" id="cimg" class="img-fluid img-thumbnail ">
+							<img src="<?php echo isset($user_profile_pic) ? 'assets/uploads/'.$user_profile_pic :'./assets/uploads/no-image-available.png' ?>" alt="Avatar" id="cimg" class="img-fluid img-thumbnail ">
 						</div>
 					</div>
 					<div class="col-md-6">

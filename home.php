@@ -46,7 +46,7 @@ if($_SESSION['login_user_type_id'] != 1)
                 </colgroup>
                 <thead>
                   <th>#</th>
-                  <th>Project</th>
+                  <th>Letters</th>
                   <th>Progress</th>
                   <th>Status</th>
                   <th></th>
@@ -54,41 +54,43 @@ if($_SESSION['login_user_type_id'] != 1)
                 <tbody>
                 <?php
                 $i = 1;
-                $stat = array("","Hod","Lipik","Principal", "Done");
+                $stat = array("Teacher","Hod","Lipik","Principal", "Done");
                 $where = "";
                 if($_SESSION['login_user_type_id'] == 2){
-                  $where = " where user_id = '{$_SESSION['login_user_type_id']}' ";
+                  $where = " where letter_creator_user_id = '{$_SESSION['login_user_id']}' ";
                 }elseif($_SESSION['login_user_type_id'] == 3){
-                  $where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_id']}]%' ";
+                  $where = " where letter_creator_user_id IN ( SELECT user_id FROM gdp_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' )";
                 }
-                $qry = $conn->query("SELECT * FROM gpd_letters $where order by name asc");
+                $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row= $qry->fetch_assoc()):
                   $prog= 0;
-                $tprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']}")->num_rows;
-                $cprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']} and status = 3")->num_rows;
-                $prog = $tprog > 0 ? ($cprog/$tprog) * 100 : 0;
-                $prog = $prog > 0 ?  number_format($prog,2) : $prog;
-                $prod = $conn->query("SELECT * FROM user_productivity where project_id = {$row['id']}")->num_rows;
-                if($row['status'] == 0 && strtotime(date('Y-m-d')) >= strtotime($row['start_date'])):
-                if($prod  > 0  || $cprog > 0)
-                  $row['status'] = 2;
-                else
-                  $row['status'] = 1;
-                elseif($row['status'] == 0 && strtotime(date('Y-m-d')) > strtotime($row['end_date'])):
-                $row['status'] = 4;
-                endif;
-                  ?>
+                // $tprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']}")->num_rows;
+                // $cprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']} and status = 3")->num_rows;
+                // $prog = $tprog > 0 ? ($cprog/$tprog) * 100 : 0;
+                // $prog = $prog > 0 ?  number_format($prog,2) : $prog;
+                // $prod = $conn->query("SELECT * FROM user_productivity where project_id = {$row['id']}")->num_rows;
+                // if($row['status'] == 0 && strtotime(date('Y-m-d')) >= strtotime($row['start_date'])):
+                // if($prod  > 0  || $cprog > 0)
+                //   $row['status'] = 2;
+                // else
+                //   $row['status'] = 1;
+                // elseif($row['status'] == 0 && strtotime(date('Y-m-d')) > strtotime($row['end_date'])):
+                // $row['status'] = 4;
+                // endif;
+                //   
+                
+                ?>
                   <tr>
                       <td>
                          <?php echo $i++ ?>
                       </td>
                       <td>
                           <a>
-                              <?php echo ucwords($row['name']) ?>
+                              <?php echo ucwords($row['letter_title']) ?>
                           </a>
                           <br>
                           <small>
-                              Due: <?php echo date("Y-m-d",strtotime($row['end_date'])) ?>
+                              Date: <?php echo date("Y-m-d",strtotime($row['letter_created_date'])) ?>
                           </small>
                       </td>
                       <td class="project_progress">
@@ -102,19 +104,19 @@ if($_SESSION['login_user_type_id'] != 1)
                       </td>
                       <td class="project-state">
                           <?php
-                            if($stat[$row['status']] =='Pending'){
-                              echo "<span class='badge badge-secondary'>{$stat[$row['status']]}</span>";
-                            }elseif($stat[$row['status']] =='Started'){
-                              echo "<span class='badge badge-primary'>{$stat[$row['status']]}</span>";
-                            }elseif($stat[$row['status']] =='On-Progress'){
-                              echo "<span class='badge badge-info'>{$stat[$row['status']]}</span>";
-                            }elseif($stat[$row['status']] =='On-Hold'){
-                              echo "<span class='badge badge-warning'>{$stat[$row['status']]}</span>";
-                            }elseif($stat[$row['status']] =='Over Due'){
-                              echo "<span class='badge badge-danger'>{$stat[$row['status']]}</span>";
-                            }elseif($stat[$row['status']] =='Done'){
-                              echo "<span class='badge badge-success'>{$stat[$row['status']]}</span>";
-                            }
+                            // if($stat[$row['status']] =='Pending'){
+                            //   echo "<span class='badge badge-secondary'>{$stat[$row['status']]}</span>";
+                            // }elseif($stat[$row['status']] =='Started'){
+                            //   echo "<span class='badge badge-primary'>{$stat[$row['status']]}</span>";
+                            // }elseif($stat[$row['status']] =='On-Progress'){
+                            //   echo "<span class='badge badge-info'>{$stat[$row['status']]}</span>";
+                            // }elseif($stat[$row['status']] =='On-Hold'){
+                            //   echo "<span class='badge badge-warning'>{$stat[$row['status']]}</span>";
+                            // }elseif($stat[$row['status']] =='Over Due'){
+                            //   echo "<span class='badge badge-danger'>{$stat[$row['status']]}</span>";
+                            // }elseif($stat[$row['status']] =='Done'){
+                            //   echo "<span class='badge badge-success'>{$stat[$row['status']]}</span>";
+                            // }
                           ?>
                       </td>
                       <td>
@@ -137,7 +139,7 @@ if($_SESSION['login_user_type_id'] != 1)
           <div class="col-12 col-sm-6 col-md-12">
             <div class="small-box bg-light shadow-sm border">
               <div class="inner">
-                <h3><?php echo $conn->query("SELECT * FROM project_list $where")->num_rows; ?></h3>
+                <h3><?php echo $conn->query("SELECT * FROM gpd_letters $where")->num_rows; ?></h3>
 
                 <p>Total Projects</p>
               </div>

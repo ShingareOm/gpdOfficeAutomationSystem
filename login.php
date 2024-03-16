@@ -30,7 +30,7 @@ include('./db_connect.php');
   ob_end_flush();
 ?>
 <?php 
-if(isset($_SESSION['login_id']))
+if(isset($_SESSION['login_user_id']))
 header("location:index.php?page=home");
 ?>
 <?php include 'header.php' ?>
