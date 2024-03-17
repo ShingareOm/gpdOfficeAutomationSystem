@@ -81,7 +81,7 @@ Class Action {
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO gpd_users set $data");
 			$qry = $this->db->query("SELECT user_id FROM gpd_users WHERE user_email = '$eemail'");
-			if ($qry->num_rows > 0) {
+			if (($qry->num_rows > 0)) {
 				$row = $qry->fetch_assoc();
 				$user_id = $row['user_id'];
 			} else {
@@ -96,6 +96,12 @@ Class Action {
 
 		}else{
 			$save = $this->db->query("UPDATE gpd_users set $data where user_id = $id");
+
+			if($user_type == 2 )
+				$save = $this->db->query("UPDATE gpd_teacher set department_id = $department where user_id = $id");
+			if($user_type == 3 )
+				$save = $this->db->query("UPDATE gpd_hod set department_id = $department where user_id = $id");
+			// $save = 
 		}
 
 		if($save){
@@ -258,11 +264,11 @@ Class Action {
 		$manage = "";
 	
 		foreach ($_POST as $k => $v) {
-			if ($k === 'name' || $k === 'files' || $k === 'id') {
+			if ($k === 'name') {
 				continue;
 			}
 	
-			if ($k === 'manager_id') {
+			if ($k === 'principle_id') {
 				$manage = $v;
 				continue;
 			}
@@ -276,11 +282,11 @@ Class Action {
 		}
 	
 		$save = false;
-		if (empty($letter_id)) {
+		if ($letter_id == '#') {
 			$columns = implode(", ", array_keys($data));
 			$values = "'" . implode("', '", array_values($data)) . "'";
-			$sql = "INSERT INTO gpd_letters (letter_creator_user_id, $columns) VALUES (31, $values)";
-			// return $sql;
+			$sql = "INSERT INTO gpd_letters ($columns) VALUES ($values)";
+			return $sql;
 			$save = $this->db->query($sql);
 		} else {
 			$setClause = implode(", ", array_map(function($key, $value) {
@@ -290,7 +296,7 @@ Class Action {
 				// return $sql;
 			$save = $this->db->query($sql);
 		}
-	
+		// return $sql;
 		return $save ? 1 : 2;
 	}
 	

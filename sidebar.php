@@ -13,8 +13,6 @@
         <h3 class="text-center p-0 m-0"><b>PRINCIPAL</b></h3>
     <?php endif; ?>
 </a>
-
-      
     </div>
     <div class="sidebar pb-4 mb-4">
       <nav class="mt-2">
@@ -36,7 +34,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-            <?php if($_SESSION['login_user_type_id'] != 3): ?>
+            <?php if($_SESSION['login_user_type_id'] == 3 | $_SESSION['login_user_type_id'] == 3 ): ?>
               <li class="nav-item">
                 <a href="./index.php?page=new_letter" class="nav-link nav-new_letter tree-item">
                   <i class="fas fa-angle-right nav-icon"></i>
@@ -52,20 +50,32 @@
               </li>
             </ul>
           </li> 
+          <?php if($_SESSION['login_user_type_id'] == 3 ): ?>
+              <li class="nav-item">
+                <a href="./index.php?page=own_letters" class="nav-link nav-new_letter tree-item">
+              <i class="nav-icon fas fa-layer-group"></i>
+                  <p>Own Letters</p>
+                </a>
+              </li>
+            <?php endif; ?>
           <li class="nav-item">
                 <a href="./index.php?page=task_list" class="nav-link nav-task_list">
                   <i class="fas fa-tasks nav-icon"></i>
                   <p>Task</p>
                 </a>
           </li>
-          <?php if($_SESSION['login_user_type_id'] != 3): ?>
+          <?php
+          //  if($_SESSION['login_user_type_id'] != 3): 
+           ?>
            <li class="nav-item">
                 <a href="./index.php?page=reports" class="nav-link nav-reports">
                   <i class="fas fa-th-list nav-icon"></i>
                   <p>Report</p>
                 </a>
           </li>
-          <?php endif; ?>
+          <?php
+        //  endif;
+          ?>
           <?php if($_SESSION['login_user_type_id'] == 1): ?>
           <li class="nav-item">
             <a href="#" class="nav-link nav-edit_user">

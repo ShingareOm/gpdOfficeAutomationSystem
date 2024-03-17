@@ -13,20 +13,7 @@ if($_SESSION['login_user_type_id'] != 1)
           </div>
   </div>
   <hr>
-  <?php 
-    $where = "";
-    if($_SESSION['login_user_type_id'] == 2){
-      $where = " where user_id = '{$_SESSION['login_user_id']}' ";
-    }elseif($_SESSION['login_user_type_id'] == 3){
-      $where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_type_id']}]%' ";
-    }
-     $where2 = "";
-    if($_SESSION['login_user_type_id'] == 2){
-      $where2 = " where user_id = '{$_SESSION['login_user_id']}' ";
-    }elseif($_SESSION['login_user_type_id'] == 3){
-      $where2 = " where concat('[',REPLACE(p.user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_type_id']}]%' ";
-    }
-    ?>
+
         
       <div class="row">
         <div class="col-md-8">
@@ -57,27 +44,21 @@ if($_SESSION['login_user_type_id'] != 1)
                 $stat = array("Teacher","Hod","Lipik","Principal", "Done");
                 $where = "";
                 if($_SESSION['login_user_type_id'] == 2){
-                  $where = " where letter_creator_user_id = '{$_SESSION['login_user_id']}' ";
-                }elseif($_SESSION['login_user_type_id'] == 3){
-                  $where = " where letter_creator_user_id IN ( SELECT user_id FROM gdp_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' )";
+                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
+                }
+                elseif($_SESSION['login_user_type_id'] == 3){
+                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}' OR letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
+                }
+                elseif($_SESSION['login_user_type_id'] == 4){
+                  $where = " WHERE letter_status = '3'";
+                }
+                elseif($_SESSION['login_user_type_id'] == 5){
+                  $where = " WHERE letter_status = '4'";
                 }
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
-                while($row= $qry->fetch_assoc()):
-                  $prog= 0;
-                // $tprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']}")->num_rows;
-                // $cprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']} and status = 3")->num_rows;
-                // $prog = $tprog > 0 ? ($cprog/$tprog) * 100 : 0;
-                // $prog = $prog > 0 ?  number_format($prog,2) : $prog;
-                // $prod = $conn->query("SELECT * FROM user_productivity where project_id = {$row['id']}")->num_rows;
-                // if($row['status'] == 0 && strtotime(date('Y-m-d')) >= strtotime($row['start_date'])):
-                // if($prod  > 0  || $cprog > 0)
-                //   $row['status'] = 2;
-                // else
-                //   $row['status'] = 1;
-                // elseif($row['status'] == 0 && strtotime(date('Y-m-d')) > strtotime($row['end_date'])):
-                // $row['status'] = 4;
-                // endif;
-                //   
+                while($row = $qry->fetch_assoc()):
+                  $status = $row['letter_status'];
+                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
                 
                 ?>
                   <tr>
@@ -104,23 +85,11 @@ if($_SESSION['login_user_type_id'] != 1)
                       </td>
                       <td class="project-state">
                           <?php
-                            // if($stat[$row['status']] =='Pending'){
-                            //   echo "<span class='badge badge-secondary'>{$stat[$row['status']]}</span>";
-                            // }elseif($stat[$row['status']] =='Started'){
-                            //   echo "<span class='badge badge-primary'>{$stat[$row['status']]}</span>";
-                            // }elseif($stat[$row['status']] =='On-Progress'){
-                            //   echo "<span class='badge badge-info'>{$stat[$row['status']]}</span>";
-                            // }elseif($stat[$row['status']] =='On-Hold'){
-                            //   echo "<span class='badge badge-warning'>{$stat[$row['status']]}</span>";
-                            // }elseif($stat[$row['status']] =='Over Due'){
-                            //   echo "<span class='badge badge-danger'>{$stat[$row['status']]}</span>";
-                            // }elseif($stat[$row['status']] =='Done'){
-                            //   echo "<span class='badge badge-success'>{$stat[$row['status']]}</span>";
-                            // }
+                              echo "<div class='badge badge-success '>{$stat[$row['letter_status'] - 1]}</div>";
                           ?>
                       </td>
                       <td>
-                        <a class="btn btn-primary btn-sm" href="./index.php?page=view_project&id=<?php echo $row['id'] ?>">
+                        <a class="btn btn-primary btn-sm" href="./index.php?page=view_project&id=<?php echo $row['letter_id'] ?>">
                               <i class="fas fa-folder">
                               </i>
                               View
@@ -141,25 +110,14 @@ if($_SESSION['login_user_type_id'] != 1)
               <div class="inner">
                 <h3><?php echo $conn->query("SELECT * FROM gpd_letters $where")->num_rows; ?></h3>
 
-                <p>Total Projects</p>
+                <p>Total Letters</p>
               </div>
               <div class="icon">
                 <i class="fa fa-layer-group"></i>
               </div>
             </div>
           </div>
-           <div class="col-12 col-sm-6 col-md-12">
-            <div class="small-box bg-light shadow-sm border">
-              <div class="inner">
-                <h3><?php 
-                // echo $conn->query("SELECT t.*,p.name as pname,p.start_date,p.status as pstatus, p.end_date,p.id as pid FROM task_list t inner join letter_list p on p.id = t.project_id $where2")->num_rows;
-                 ?></h3>
-                <p>Total Tasks<br></p>
-              </div>
-              <div class="icon">
-                <i class="fa fa-tasks"></i>
-              </div>
-            </div>
+      
           </div>
       </div>
         </div>

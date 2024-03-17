@@ -172,6 +172,7 @@
 					$('#msg').html("<div class='alert alert-danger'>Email already exist.</div>");
 					$('[name="user_email"]').addClass("border-danger")
 					end_load()
+					alert_toast('Email already exist!',"error");
 				}
 			}
 			

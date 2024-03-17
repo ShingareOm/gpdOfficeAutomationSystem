@@ -42,7 +42,7 @@
 						 $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
 					 }
 					 elseif($_SESSION['login_user_type_id'] == 3){
-						 $where = " WHERE letter_creator_user_id IN ( SELECT user_id FROM gdp_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
+						 $where = " WHERE letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
 					 }
 					 elseif($_SESSION['login_user_type_id'] == 4){
 						 $where = " WHERE letter_status = '3'";
@@ -51,7 +51,6 @@
 						 $where = " WHERE letter_status = '4'";
 					 }
 					 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_id asc");
-				 
 					while($row= $qry->fetch_assoc()):
 						$trans = get_html_translation_table(HTML_ENTITIES,ENT_QUOTES);
 						unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
@@ -129,7 +128,7 @@
 		$('#list').dataTable()
 	
 	$('.delete_project').click(function(){
-	_conf("Are you sure to delete this project?","delete_project",[$(this).attr('data-id')])
+	_conf("Are you sure to delete this letter?","delete_project",[$(this).attr('data-id')])
 	})
 	})
 	function delete_project($id){

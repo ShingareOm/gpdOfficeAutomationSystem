@@ -22,7 +22,7 @@ if ($user_type_id == 2 || $user_type_id == 3) {
 		$sql = "SELECT department_id FROM $table_name WHERE user_id = ".$_GET['id'];
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
-			// Output department_id
+			// Output department_id`
 			$row = $result->fetch_assoc();
 			$department_id = $row['department_id'];
 		} else {

@@ -4,7 +4,8 @@
 	<div class="card card-outline card-primary">
 		<div class="card-body">
 			<form action="" id="manage-project">
-        <input type="hidden" name="letter_id" value="<?php echo isset($letter_id) ? $letter_id: '' ?>">
+        <input type="hidden" name="letter_creator_user_id" value="<?php echo isset($_SESSION['login_user_id']) ? $_SESSION['login_user_id']: '' ?>">
+        <input type="hidden" name="letter_id" value="<?php echo isset($letter_id) ? $letter_id: '#' ?>">
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
@@ -26,11 +27,11 @@
               <input type="date" class="form-control form-control-sm" autocomplete="off" name="letter_created_date" value="<?php echo isset($letter_created_date) ? date("Y-m-d",strtotime($letter_created_date)) : '' ?>">
             </div>
           </div>
-        	<?php if($_SESSION['login_user_type_id'] == 1 ): ?>
+        	<?php if($_SESSION['login_user_type_id'] == 2 | $_SESSION['login_user_type_id'] == 3  ): ?>
            <div class="col-md-6">
             <div class="form-group">
               <label for="" class="control-label">To Principal</label>
-              <select class="form-control form-control-sm select2" name="manager_id">
+              <select class="form-control form-control-sm select2" name="principle_id">
               	<option></option>
               	<?php 
               	$managers = $conn->query("SELECT *,concat(user_name,' ',user_surname) as name FROM gpd_users where user_type_id = 5 order by concat(user_name,' ',user_surname) asc ");
@@ -42,7 +43,7 @@
             </div>
           </div>
       <?php else: ?>
-      	<input type="hidden" name="manager_id" value="<?php echo $_SESSION['login_user_id'] ?>">
+      	<input type="hidden" name="login_user_id" value="<?php echo $_SESSION['login_user_id'] ?>">
       <?php endif; ?>
         </div>
 		<div class="row">

@@ -60,7 +60,7 @@
 		$(document).on('click', '.delete_user', function(){
 			var userId = $(this).attr('data-id');
 			console.log("Deleting user with ID: " + userId); // Debugging: Check if userId is correct
-			_conf("Are you ?","delete_user", [userId]);
+			_conf("Are you sure to delete this USER ?","delete_user", [userId]);
 		});
 
     });
