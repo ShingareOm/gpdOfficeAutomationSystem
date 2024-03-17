@@ -42,7 +42,7 @@
                   $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
                 }
                 elseif($_SESSION['login_user_type_id'] == 3){
-                  $where = " WHERE letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
+                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}' OR letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
                 }
                 elseif($_SESSION['login_user_type_id'] == 4){
                   $where = " WHERE letter_status = '3'";
@@ -75,7 +75,7 @@
 		                    </button>
 		                    <div class="dropdown-menu" style="">
 		                      <a class="dropdown-item view_project" href="./index.php?page=view_project&id=<?php echo $row['letter_id'] ?>" data-id="<?php echo $row['letter_id'] ?>">View</a>
-		                      <?php if($_SESSION['login_user_type_id'] != 3): ?>
+		                      <?php if($_SESSION['login_user_type_id'] != 4 | $_SESSION['login_user_type_id'] != 5 ): ?>
 								<div class="dropdown-divider"></div>
 		                      <a class="dropdown-item" href="./index.php?page=edit_project&id=<?php echo $row['letter_id'] ?>">Edit</a>
 		                      <div class="dropdown-divider"></div>

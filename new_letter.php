@@ -10,7 +10,7 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="" class="control-label">Name</label>
-					<input type="text" class="form-control form-control-sm" name="name" value="<?php echo isset($letter_id) ? $user_name." ".$user_surname : '' ?>">
+					<input type="text" class="form-control form-control-sm" name="name" value="<?php echo isset( $_SESSION["login_user_name"]) ? $_SESSION["login_user_name"]." ".$_SESSION["login_user_surname"] : '' ?>" readonly>
 				</div>
 			</div>
 			<div class="col-md-6">

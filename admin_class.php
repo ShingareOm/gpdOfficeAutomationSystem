@@ -306,6 +306,7 @@ Class Action {
 	function save_project() {
 		extract($_POST);
 		$data = [];
+		$data2 = "";
 		$manage = "";
 	
 		foreach ($_POST as $k => $v) {
@@ -317,12 +318,16 @@ Class Action {
 				$manage = $v;
 				continue;
 			}
+			if(empty($data2)){
+				$data2 .= " $k='$v' ";
+			}else{
+				$data2 .= ", $k='$v' ";
+			}
 	
 			if (!is_numeric($k)) {
 				if ($k === 'letter_content') {
 					$v = htmlentities(str_replace("'", "&#x2019;", $v));
 				}
-				$data[$k] = $v;
 			}
 		}
 	
@@ -333,8 +338,9 @@ Class Action {
 			$sql = "INSERT INTO gpd_letters ($columns) VALUES ($values)";
 			$save = $this->db->query($sql);
 		} else {
-			$sql = "UPDATE gpd_letters SET $setClause WHERE letter_id = $letter_id";
+			$sql = "UPDATE gpd_letters SET  $data2  WHERE letter_id = $letter_id";
 			$save = $this->db->query($sql);
+			// return $sql;
 		}
 		return $save ? 1 : 2;
 	}
