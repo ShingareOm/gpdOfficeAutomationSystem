@@ -31,7 +31,7 @@ letter {
   display: block;
   background: #fff;
   width: 210mm;
-  height: 297mm;
+  height: 500mm;
   padding: 20mm;
   margin: 0 auto;
 }
@@ -80,7 +80,7 @@ to {
   display: block;
 }
 
-role{
+role {
   margin-bottom: 14pt;
   font-weight: 600;
 }
@@ -253,12 +253,13 @@ selectiontools button:hover {
   }
 }
 
-department{
+department {
   /* display: block; */
   margin-bottom: 14pt;
   font-weight: 600;
 }
-collagename{
+
+collagename {
   /* display: block; */
   margin-bottom: 14pt;
   font-weight: 600;

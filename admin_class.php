@@ -36,8 +36,8 @@ Class Action {
 		include 'db_connect.php';
 		extract($_POST);
 		$qry = $conn->query("SELECT * FROM gpd_letters where letter_id = ".$letter_id)->fetch_array();
-		// $qry2 = $conn->query("SELECT *  FROM gpd_teacher  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
-		// $qry3 = $conn->query("SELECT *  FROM gpd_users  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
+		$qry2 = $conn->query("SELECT *  FROM gpd_teacher  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
+		$qry3 = $conn->query("SELECT *  FROM gpd_users  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
 
 		foreach($qry as $k => $v){
 			$$k = $v;

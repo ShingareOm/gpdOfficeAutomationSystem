@@ -1,4 +1,4 @@
-<?php require 'letter/letter.php' ?>
+<?php require './letters/letter/letter.php' ?>
 <!DOCTYPE html>
 <html>
 <head>
