@@ -35,9 +35,17 @@ Class Action {
 
 		include 'db_connect.php';
 		extract($_POST);
-		$qry = $conn->query("SELECT * FROM gpd_letters where letter_id = ".$letter_id)->fetch_array();
-		$qry2 = $conn->query("SELECT *  FROM gpd_teacher  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
 		$qry3 = $conn->query("SELECT *  FROM gpd_users  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
+		foreach($qry3 as $k => $v){
+			$$k = $v;
+		}
+		if ($user_type_id == 2) {
+			$qry2 = $conn->query("SELECT *  FROM gpd_teacher  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
+		}elseif($user_type_id == 3)
+		{
+			$qry2 = $conn->query("SELECT *  FROM gpd_hod  WHERE user_id = ( SELECT letter_creator_user_id FROM gpd_letters WHERE letter_id = ".$letter_id.")")->fetch_array();
+		}
+		$qry = $conn->query("SELECT * FROM gpd_letters where letter_id = ".$letter_id)->fetch_array();
 
 		foreach($qry as $k => $v){
 			$$k = $v;
@@ -45,9 +53,7 @@ Class Action {
 		foreach($qry2 as $k => $v){
 			$$k = $v;
 		}
-		foreach($qry3 as $k => $v){
-			$$k = $v;
-		}
+
 		include './letters/index.php';
         return json_encode($letter_content);
     }
@@ -90,7 +96,7 @@ Class Action {
 		if(!empty($password)){
 			$data .= ", user_password=md5('$password') ";
 		}
-		
+		$user_id = $id;
 		$check = $this->db->query("SELECT * FROM gpd_users where user_email ='$eemail' ".(!empty($id) ? " and user_id != {$id} " : ''))->num_rows;
 		
 		if($check > 0){
@@ -106,7 +112,7 @@ Class Action {
 		
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO gpd_users SET $data");
-			$qry = $this->db->query("SELECT user_id FROM gpd_users WHERE user_email = '$eemail'");
+			$qry =  $this->db->query("SELECT user_id FROM gpd_users WHERE user_email = '$eemail'");
 			
 			if ($qry->num_rows > 0) {
 				$row = $qry->fetch_assoc();
@@ -123,21 +129,26 @@ Class Action {
 		} else {
 			$save = $this->db->query("UPDATE gpd_users SET $data WHERE user_id = $id");
 			$qry = $this->db->query("SELECT * FROM gpd_teacher WHERE user_id = '$id'");
-			
+			$qry2 = $this->db->query("SELECT * FROM gpd_hod WHERE user_id = '$id'");
 			if (!($qry->num_rows > 0)) {
 				if ($user_type == "2" ) {
-					$save = $this->db->query("INSERT INTO gpd_teacher (teacher_id, user_id, department_id) VALUES (NULL, $user_id, $department)");
-				} elseif ($user_type == "3" ) {
-					$save = $this->db->query("INSERT INTO gpd_hod (hod_id, user_id, department_id) VALUES (NULL, $user_id, $department)");
+					$save = $this->db->query("INSERT INTO gpd_teacher (teacher_id, user_id, department_id) VALUES (NULL, '$user_id', '$department')");
 				}
 			}
-			
-			if($user_type == 2 )
-				$save = $this->db->query("UPDATE gpd_teacher SET department_id = $department WHERE user_id = $id");
-			if($user_type == 3 )
+			else{
+				if($user_type == 2 )
+					$save = $this->db->query("UPDATE gpd_teacher SET department_id = $department WHERE user_id = $id");
+			}
+			if (!($qry2->num_rows > 0)) {
+				if ($user_type == "3" ) {
+					$save = $this->db->query("INSERT INTO gpd_hod (hod_id, user_id, department_id) VALUES (NULL, '$user_id', '$department')");
+				}
+			}
+			else{
+				if($user_type == 3 )
 				$save = $this->db->query("UPDATE gpd_hod SET department_id = $department WHERE user_id = $id"); 
+			}
 		}
-	
 		if($save){
 			return 1;
 		} else {
