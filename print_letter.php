@@ -3,30 +3,23 @@
         <div class="card card-outline card-success">
           <div class="card-header">
             <b>Project Progress</b>
-            <div class="card-tools">
-            	<button class="btn btn-flat btn-sm bg-gradient-success btn-success" id="print"><i class="fa fa-print"></i> Print</button>
-            </div>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive" id="printable">
               <table class="table m-0 table-bordered">
                 <colgroup>
-                  <col width="5%">
-                  <col width="30%">
-                  <col width="15%">
-                  <col width="15%">
-                  <col width="15%">
+                  <col width="7%">
+                  <col width="31%">
+                  <col width="31%">
                   <col width="10%">
-                  <col width="10%">
+                  <col width="21%">
                 </colgroup>
                 <thead>
                   <th>#</th>
                   <th>Project</th>
-                  <th>HOD Remark</th>
-                  <th>Lipik Remark</th>
-                  <th>Principal Remark</th>
                   <th>Progress</th>
                   <th>Status</th>
+                  <th>Print</th>
                 </thead>
                 <tbody>
                 <?php
@@ -47,6 +40,7 @@
                 }
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row = $qry->fetch_assoc()):
+                    
                   $status = $row['letter_status'];
                   $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
                 
@@ -64,15 +58,6 @@
                               Due: <?php echo date("Y-m-d",strtotime($row['letter_created_date'])) ?>
                           </small>
                       </td>
-                      <td class="text-center">
-                      	<?php echo $row['letter_hod_remarks'] ?>
-                      </td>
-                      <td class="text-center">
-                      	<?php echo $row['letter_lipik_remarks'] ?>
-                      </td>
-                      <td class="text-center">
-                      	<?php echo $row['letter_principal_remarks'] ?>
-                      </td>
                       <td class="project_progress">
                           <div class="progress progress-sm">
                               <div class="progress-bar bg-green" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $prog ?>%">
@@ -87,6 +72,11 @@
                               echo "<span class='badge badge-success'>{$stat[$row['letter_status']]}</span>";
                           ?>
                       </td>
+                      <td>
+                        <div class="card-tools">
+                            <button class="btn print-btn mysersonal btn-flat btn-sm bg-gradient-success btn-success" data-id="<?php echo $row['letter_id']?>" id="<?php echo "data".$i ?>"><i class="fa fa-print"></i> Print</button>
+                        </div>
+                    </td>
                   </tr>
                 <?php endwhile; ?>
                 </tbody>  
@@ -95,21 +85,34 @@
           </div>
         </div>
         </div>
-<script>
-	$('#print').click(function(){
-		start_load()
-		var _h = $('head').clone()
-		var _p = $('#printable').clone()
-		var _d = "<p class='text-center'><b>Letter Progress Report as of (<?php echo date("F d, Y") ?>)</b></p>"
-		_p.prepend(_d)
-		_p.prepend(_h)
-		var nw = window.open("","","width=900,height=600")
-		nw.document.write(_p.html())
-		nw.document.close()
-		nw.print()
-		setTimeout(function(){
-			nw.close()
-			end_load()
-		},750)
-	})
+        
+        
+        <script>
+
+         
+$(document).ready(function() {
+    $('.print-btn').click(function() {
+        var letter_id = $(this).data('id');
+        $.ajax({
+            url: 'ajax.php?action=print_letter',
+            method: 'POST',
+            data: { letter_id: letter_id },
+            success: function(response) {
+                console.log("printing it");
+                var newWindow = window.open("","","width=900,height=600")
+                newWindow.document.open();
+                newWindow.document.write(response);
+                newWindow.document.close();
+                newWindow.onload = function() {
+                    newWindow.print();
+                };
+                setTimeout(function(){
+		            	newWindow.close()
+		            	end_load()
+	            	},1000)
+            },
+        });
+    });
+});
+
 </script>

@@ -12,9 +12,10 @@
     </to>
   </address>
   <main>
-   <b> <subject>विषय : <?= $placeholders['subject'] ?></subject></b>
+   <b> <subject>विषय : <?=  $placeholders['subject'] ?></subject></b>
     <text  >
-      <?= $placeholders['text'] ?>
+      <?php echo html_entity_decode($placeholders['text']) ?>
+      
     </text>
     <signature>
       <closing  ><?= $closing ?></closing>

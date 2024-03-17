@@ -26,7 +26,7 @@
 				<thead>
 					<tr>
 						<th class="text-center">#</th>
-						<th>Project</th>
+						<th>Letter Title</th>
 						<th>Date Started</th>
 						<th>Due Date</th>
 						<th>Status</th>
@@ -34,64 +34,39 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php
-					 $i = 1;
-					 $stat = array("","hod","lipik","principal","Done");
-					 $where = "";
-					 if($_SESSION['login_user_type_id'] == 2){
-						 $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
-					 }
-					 elseif($_SESSION['login_user_type_id'] == 3){
-						 $where = " WHERE letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
-					 }
-					 elseif($_SESSION['login_user_type_id'] == 4){
-						 $where = " WHERE letter_status = '3'";
-					 }
-					 elseif($_SESSION['login_user_type_id'] == 5){
-						 $where = " WHERE letter_status = '4'";
-					 }
-					 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_id asc");
-					while($row= $qry->fetch_assoc()):
-						$trans = get_html_translation_table(HTML_ENTITIES,ENT_QUOTES);
-						unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
-						$desc = strtr(html_entity_decode($row['letter_content']),$trans);
-						$desc=str_replace(array("<li>","</li>"), array("",", "), $desc);
-
-					 	// $tprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']}")->num_rows;
-		                // $cprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']} and status = 3")->num_rows;
-						// $prog = $tprog > 0 ? ($cprog/$tprog) * 100 : 0;
-		                // $prog = $prog > 0 ?  number_format($prog,2) : $prog;
-		                // $prod = $conn->query("SELECT * FROM user_productivity where project_id = {$row['id']}")->num_rows;
-						// if($row['status'] == 0 && strtotime(date('Y-m-d')) >= strtotime($row['start_date'])):
-						// if($prod  > 0  || $cprog > 0)
-		                //   $row['status'] = 2;
-		                // else
-		                //   $row['status'] = 1;
-						// elseif($row['status'] == 0 && strtotime(date('Y-m-d')) > strtotime($row['end_date'])):
-						// $row['status'] = 4;
-						// endif;
-					?>
+				<?php
+                $i = 1;
+                $stat = array("Teacher","Hod","Lipik","Principal", "Done");
+                $where = "";
+                if($_SESSION['login_user_type_id'] == 2){
+                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
+                }
+                elseif($_SESSION['login_user_type_id'] == 3){
+                  $where = " WHERE letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
+                }
+                elseif($_SESSION['login_user_type_id'] == 4){
+                  $where = " WHERE letter_status = '3'";
+                }
+                elseif($_SESSION['login_user_type_id'] == 5){
+                  $where = " WHERE letter_status = '4'";
+                }
+                $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
+                while($row = $qry->fetch_assoc()):
+                  $status = $row['letter_status'];
+                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
+                
+                ?>
 					<tr>
 						<th class="text-center"><?php echo $i++ ?></th>
 						<td>
 							<p><b><?php echo ucwords($row['letter_title']) ?></b></p>
-							<p class="truncate"><?php echo strip_tags($desc) ?></p>
+							<p class="truncate"></p>
 						</td>
 						<td><b><?php echo date("M d, Y",strtotime($row['letter_created_date'])) ?></b></td>
 						<td><b><?php echo date("M d, Y",strtotime($row['letter_created_date'])) ?></b></td>
 						<td class="text-center">
 							<?php
-							//   if($stat[$row['status']] =='hod'){
-							//   	echo "<span class='badge badge-secondary'>{$stat[$row['status']]}</span>";
-							//   }elseif($stat[$row['status']] =='lipik'){
-							//   	echo "<span class='badge badge-primary'>{$stat[$row['status']]}</span>";
-							//   }elseif($stat[$row['status']] =='principal'){
-							//   	echo "<span class='badge badge-info'>{$stat[$row['status']]}</span>";
-							//   }elseif($stat[$row['status']] =='reject'){
-							//   	echo "<span class='badge badge-danger'>{$stat[$row['status']]}</span>";
-							//   }elseif($stat[$row['status']] =='Done'){
-							//   	echo "<span class='badge badge-success'>{$stat[$row['status']]}</span>";
-							//   }
+							  	echo "<span class='badge badge-success'>{$stat[$row['letter_status'] - 1]}</span>";
 							?>
 						</td>
 						<td class="text-center">
@@ -100,8 +75,8 @@
 		                    </button>
 		                    <div class="dropdown-menu" style="">
 		                      <a class="dropdown-item view_project" href="./index.php?page=view_project&id=<?php echo $row['letter_id'] ?>" data-id="<?php echo $row['letter_id'] ?>">View</a>
-		                      <div class="dropdown-divider"></div>
 		                      <?php if($_SESSION['login_user_type_id'] != 3): ?>
+								<div class="dropdown-divider"></div>
 		                      <a class="dropdown-item" href="./index.php?page=edit_project&id=<?php echo $row['letter_id'] ?>">Edit</a>
 		                      <div class="dropdown-divider"></div>
 		                      <a class="dropdown-item delete_project" href="javascript:void(0)" data-id="<?php echo $row['letter_id'] ?>">Delete</a>

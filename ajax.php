@@ -25,6 +25,11 @@ if($action == 'logout2'){
 	if($logout)
 		echo $logout;
 }
+if($action == 'print_letter'){
+	$logout = $crud->print_letter();
+	if($logout)
+		echo $logout;
+}
 
 if($action == 'signup'){
 	$save = $crud->signup();
