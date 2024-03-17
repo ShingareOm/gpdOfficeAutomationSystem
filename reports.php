@@ -36,7 +36,7 @@
                 }elseif($_SESSION['login_user_type_id'] == 3){
                   $where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_id']}]%' ";
                 }
-                $qry = $conn->query("SELECT * FROM project_list $where order by name asc");
+                $qry = $conn->query("SELECT * FROM letter_list $where order by name asc");
                 while($row= $qry->fetch_assoc()):
                 $tprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']}")->num_rows;
                 $cprog = $conn->query("SELECT * FROM task_list where project_id = {$row['id']} and status = 3")->num_rows;

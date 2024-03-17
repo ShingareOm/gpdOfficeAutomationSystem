@@ -276,7 +276,7 @@ Class Action {
 		}
 	
 		$save = false;
-		if (empty($id)) {
+		if (empty($letter_id)) {
 			$columns = implode(", ", array_keys($data));
 			$values = "'" . implode("', '", array_values($data)) . "'";
 			$sql = "INSERT INTO gpd_letters (letter_creator_user_id, $columns) VALUES (31, $values)";
@@ -286,7 +286,8 @@ Class Action {
 			$setClause = implode(", ", array_map(function($key, $value) {
 				return "$key = '$value'";
 			}, array_keys($data), array_values($data)));
-			$sql = "UPDATE gpd_letters SET $setClause WHERE id = $id";
+			$sql = "UPDATE gpd_letters SET $setClause WHERE letter_id = $letter_id";
+				// return $sql;
 			$save = $this->db->query($sql);
 		}
 	
@@ -295,7 +296,7 @@ Class Action {
 	
 	function delete_project(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM project_list where id = $id");
+		$delete = $this->db->query("DELETE FROM gpd_letters where letter_id = $id");
 		if($delete){
 			return 1;
 		}

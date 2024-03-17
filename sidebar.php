@@ -45,7 +45,7 @@
               </li>
             <?php endif; ?>
               <li class="nav-item">
-                <a href="./index.php?page=project_list" class="nav-link nav-project_list tree-item">
+                <a href="./index.php?page=letter_list" class="nav-link nav-letter_list tree-item">
                   <i class="fas fa-angle-right nav-icon"></i>
                   <p>List</p>
                 </a>
