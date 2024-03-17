@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2024 at 01:18 PM
+-- Generation Time: Mar 17, 2024 at 01:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,8 +92,17 @@ CREATE TABLE `gpd_letters` (
 --
 
 INSERT INTO `gpd_letters` (`letter_id`, `letter_creator_user_id`, `letter_title`, `letter_content`, `letter_status`, `letter_hod_remarks`, `letter_lipik_remarks`, `letter_principal_remarks`, `letter_principal_approval_date`, `letter_lipik_approval_date`, `letter_hod_approval_date`, `letter_created_date`) VALUES
-(1, 20, 'I love you babe', 'I love you babe content', 1, 'done', 'done', '', '2024-03-04 09:49:30', '2024-03-04 09:49:30', '2024-03-04 09:49:30', '2024-03-04'),
-(9, 20, 'This is my title', 'Hello', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(10, 3, 'This is one of the test letter', 'This is one of the test letter', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-04'),
+(11, 3, 'Important Announcement Regarding Annual Event', 'Dear All, We are excited to announce that the annual event will take place on...', 1, NULL, NULL, NULL, '2024-03-10 00:00:00', NULL, NULL, '2024-02-28'),
+(12, 3, 'Reminder: Staff Meeting Tomorrow', 'This is a reminder that there will be a staff meeting tomorrow at 9:00 AM in the conference room...', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-12'),
+(13, 3, 'Urgent: System Maintenance Scheduled', 'Dear Team, Please be informed that there will be a scheduled system maintenance...', 1, NULL, NULL, NULL, '2024-03-05 00:00:00', NULL, NULL, '2024-02-29'),
+(14, 3, 'Congratulations to Employee of the Month', 'We are pleased to announce that the Employee of the Month for February is Mr. John Smith...', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-07'),
+(15, 3, 'Request for Leave Approval', 'Dear Manager, I would like to request approval for leave from March 20th to March 25th...', 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-03'),
+(16, 3, 'Invitation to Quarterly Review Meeting', 'Dear Team, You are cordially invited to attend the quarterly review meeting scheduled for...', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-09'),
+(17, 3, 'Reminder: Project Deadline Approaching', 'This is a gentle reminder that the deadline for Project X is approaching...', 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-01'),
+(18, 3, 'Announcement: New Employee Orientation', 'We are delighted to welcome our new employees who will be joining us next week...', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-06'),
+(19, 3, 'Notice: Office Closure on Public Holiday', 'Please note that our office will remain closed on Monday, March 18th, due to the public holiday...', 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-02'),
+(20, 3, 'Reminder: Submit Quarterly Reports', 'A friendly reminder to all department heads to submit their quarterly reports by the end of the week...', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-08');
 
 -- --------------------------------------------------------
 
@@ -452,7 +461,7 @@ ALTER TABLE `gpd_hod`
 -- AUTO_INCREMENT for table `gpd_letters`
 --
 ALTER TABLE `gpd_letters`
-  MODIFY `letter_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `letter_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `gpd_letter_history`
