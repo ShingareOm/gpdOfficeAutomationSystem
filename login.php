@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <link rel="icon" href="./assets/images/favicon.png" type="image/png" />
 <style>
     body {
       background-image: url('/assets/images/gpdbackground.jpg'); /* Replace 'background.jpg' with the path to your background image */

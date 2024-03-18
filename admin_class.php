@@ -308,42 +308,42 @@ Class Action {
 		$data = [];
 		$data2 = "";
 		$manage = "";
-	
+		
 		foreach ($_POST as $k => $v) {
-			if ($k === 'name') {
+			if ($k === 'name' || $k === 'principle_id') {
 				continue;
 			}
-	
-			if ($k === 'principle_id') {
-				$manage = $v;
-				continue;
-			}
-			if(empty($data2)){
+			
+			if (empty($data2)){
 				$data2 .= " $k='$v' ";
-			}else{
+			} else {
 				$data2 .= ", $k='$v' ";
 			}
-	
+			
 			if (!is_numeric($k)) {
 				if ($k === 'letter_content') {
 					$v = htmlentities(str_replace("'", "&#x2019;", $v));
 				}
 			}
+			
+			// Populate $data array
+			$data[$k] = $v;
 		}
-	
+		
 		$save = false;
 		if ($letter_id == '#') {
+			// Use $data array to generate columns and values
 			$columns = implode(", ", array_keys($data));
 			$values = "'" . implode("', '", array_values($data)) . "'";
 			$sql = "INSERT INTO gpd_letters ($columns) VALUES ($values)";
 			$save = $this->db->query($sql);
 		} else {
-			$sql = "UPDATE gpd_letters SET  $data2  WHERE letter_id = $letter_id";
+			$sql = "UPDATE gpd_letters SET $data2 WHERE letter_id = $letter_id";
 			$save = $this->db->query($sql);
-			// return $sql;
 		}
 		return $save ? 1 : 2;
 	}
+	
 	
 	function delete_project(){
 		extract($_POST);

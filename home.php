@@ -8,7 +8,7 @@ if($_SESSION['login_user_type_id'] != 1)
  <div class="col-12">
           <div class="card">
             <div class="card-body">
-              Welcome <?php echo $_SESSION['login_user_name'] ?>!
+              Welcome <?php echo $_SESSION['login_user_name']." ".$_SESSION['login_user_surname'] ?>!
             </div>
           </div>
   </div>
@@ -47,7 +47,7 @@ if($_SESSION['login_user_type_id'] != 1)
                   $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
                 }
                 elseif($_SESSION['login_user_type_id'] == 3){
-                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}' OR letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
+                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
                 }
                 elseif($_SESSION['login_user_type_id'] == 4){
                   $where = " WHERE letter_status = '3'";
