@@ -48,7 +48,7 @@
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row = $qry->fetch_assoc()):
                   $status = $row['letter_status'];
-                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
+                  $prog = ($status == 4) ? 100 : ($status * 20); // Assuming Done is 100%
                 
                 ?>
                   <tr>
@@ -64,14 +64,24 @@
                               Due: <?php echo date("Y-m-d",strtotime($row['letter_created_date'])) ?>
                           </small>
                       </td>
+                      <?php
+                      
+                      $remarksss = "<span class='badge badge-danger'>Not Reviewed yet</span>"
+                      ?>
                       <td class="text-center">
-                      	<?php echo $row['letter_hod_remarks'] ?>
+                      <?php 
+                        echo (!empty(ucwords($row['letter_hod_remarks']))) ? ucwords($row['letter_hod_remarks']) : $remarksss;
+                        ?>
                       </td>
                       <td class="text-center">
-                      	<?php echo $row['letter_lipik_remarks'] ?>
+                      	<?php 
+                        echo (!empty(ucwords($row['letter_lipik_remarks']))) ? ucwords($row['letter_lipik_remarks']) :  $remarksss;
+                        ?>
                       </td>
                       <td class="text-center">
-                      	<?php echo $row['letter_principal_remarks'] ?>
+                      <?php 
+                        echo (!empty(ucwords($row['letter_principal_remarks']))) ? ucwords($row['letter_principal_remarks']) : $remarksss;
+                        ?>
                       </td>
                       <td class="project_progress">
                           <div class="progress progress-sm">
@@ -84,7 +94,7 @@
                       </td>
                       <td class="project-state">
                           <?php
-                              echo "<span class='badge badge-success'>{$stat[$row['letter_status']]}</span>";
+                              echo "<span class='badge badge-success'>{$stat[$row['letter_status'] -1]}</span>";
                           ?>
                       </td>
                   </tr>

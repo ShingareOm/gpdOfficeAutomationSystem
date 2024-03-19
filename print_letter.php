@@ -2,7 +2,7 @@
  <div class="col-md-12">
         <div class="card card-outline card-success">
           <div class="card-header">
-            <b>Project Progress</b>
+            <b>Letter Progress</b>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive" id="printable">
@@ -16,7 +16,7 @@
                 </colgroup>
                 <thead>
                   <th>#</th>
-                  <th>Project</th>
+                  <th>Letter  </th>
                   <th>Progress</th>
                   <th>Status</th>
                   <th>Print</th>
@@ -42,7 +42,7 @@
                 while($row = $qry->fetch_assoc()):
                     
                   $status = $row['letter_status'];
-                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
+                  $prog = ($status == 4) ? 100 : ($status * 20); // Assuming Done is 100%
                 
                 ?>
                   <tr>
@@ -69,7 +69,7 @@
                       </td>
                       <td class="project-state">
                           <?php
-                              echo "<span class='badge badge-success'>{$stat[$row['letter_status']]}</span>";
+                              echo "<span class='badge badge-success'>{$stat[$row['letter_status'] -1 ]}</span>";
                           ?>
                       </td>
                       <td>

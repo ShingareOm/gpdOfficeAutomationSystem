@@ -210,7 +210,7 @@ Class Action {
 		extract($_POST);
 		$data = "";
 		foreach($_POST as $k => $v){
-			if(!in_array($k, array('id','cpass','table','password')) && !is_numeric($k)){
+			if(!in_array($k, array('user_id','user_password','table','user_password')) && !is_numeric($k)){
 				
 				if(empty($data)){
 					$data .= " $k='$v' ";
@@ -219,7 +219,9 @@ Class Action {
 				}
 			}
 		}
-		$check = $this->db->query("SELECT * FROM users where email ='$email' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
+
+		// echo "user id is {$user_id}";
+		$check = $this->db->query("SELECT * FROM gpd_users where user_email ='$user_email' ".(!empty($user_id) ? " and user_id != {$user_id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
 			exit;
@@ -229,17 +231,18 @@ Class Action {
 			$move = move_uploaded_file($_FILES['user_profile_pic']['tmp_name'],'assets/uploads/'. $fname);
 			$data .= ", user_profile_pic = '$fname' ";
 		}
-		if(!empty($password))
-			$data .= " ,password=md5('$password') ";
-		if(empty($id)){
-			$save = $this->db->query("INSERT INTO users set $data");
+		if(!empty($user_password))
+			$data .= " ,user_password=md5('$user_password') ";
+		// echo "This is userid {$user_id}";
+		if(empty($user_id)){
+			$save = $this->db->query("INSERT INTO gpd_users set $data");
 		}else{
-			$save = $this->db->query("UPDATE users set $data where id = $id");
+			$save = $this->db->query("UPDATE gpd_users set $data where user_id = $user_id");
 		}
 
 		if($save){
 			foreach ($_POST as $key => $value) {
-				if($key != 'password' && !is_numeric($key))
+				if($key != 'user_password' && !is_numeric($key))
 					$_SESSION['login_'.$key] = $value;
 			}
 			if(isset($_FILES['img']) && !empty($_FILES['img']['tmp_name']))
@@ -250,7 +253,6 @@ Class Action {
 	function delete_user(){
 		extract($_POST);
 		$delete = $this->db->query("DELETE FROM gpd_users where user_id = '$id'");
-		// return "DELETE FROM gpd_users where user_id = '$id'";
 		if($delete)
 			return 1;
 	}
@@ -356,9 +358,7 @@ Class Action {
 		extract($_POST);
 		$data = "";
 		foreach($_POST as $k => $v){
-			if(!in_array($k, array('id')) && !is_numeric($k)){
-				if($k == 'description')
-					$v = htmlentities(str_replace("'","&#x2019;",$v));
+			if(!in_array($k, array('letter_id')) && !is_numeric($k)){
 				if(empty($data)){
 					$data .= " $k='$v' ";
 				}else{
@@ -366,10 +366,10 @@ Class Action {
 				}
 			}
 		}
-		if(empty($id)){
-			$save = $this->db->query("INSERT INTO task_list set $data");
+		if(empty($letter_id)){
+			return 2;
 		}else{
-			$save = $this->db->query("UPDATE task_list set $data where id = $id");
+			$save = $this->db->query("UPDATE gpd_letters set $data where letter_id = $letter_id");
 		}
 		if($save){
 			return 1;
@@ -377,7 +377,7 @@ Class Action {
 	}
 	function delete_task(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM task_list where id = $id");
+		$delete = $this->db->query("DELETE FROM gpd_letters where letter_id = $letter_id");
 		if($delete){
 			return 1;
 		}

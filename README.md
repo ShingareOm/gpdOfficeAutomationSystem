@@ -41,7 +41,6 @@ Welcome to the Government Polytechnic College Dharashiv Office Management System
 ## Contributors
 
 - [Om Shingare](https://github.com/ShingareOm) - Developer
-- [Prerana Kupade](https://github.com/PreranaKupade) - Developer
 
 ## Support
 

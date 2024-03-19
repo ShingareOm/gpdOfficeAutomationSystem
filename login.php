@@ -3,8 +3,8 @@
   <link rel="icon" href="./assets/images/favicon.png" type="image/png" />
 <style>
     body {
-      background-image: url('/assets/images/gpdbackground.jpg'); /* Replace 'background.jpg' with the path to your background image */
-      background-size: cover; /* Cover the entire background */
+      background-image: url('./assets/images/gpdbackground.jpg'); /* Replace 'background.jpg' with the path to your background image */
+      background-size: cover; 
     }
     .overlay {
             position: absolute;
@@ -38,7 +38,7 @@ header("location:index.php?page=home");
 <body style="background-image: url('./assets/images/gpdbackground.jpg');" class="hold-transition login-page bg-black overlay">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#" class="text-black"><b><?php echo $_SESSION['system']['name'] ?> - Admin</b></a>
+    <a href="#" class="text-black"><b><?php echo $_SESSION['system']['name'] ?></b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -69,15 +69,12 @@ header("location:index.php?page=home");
               </label>
             </div>
           </div>
-          <!-- /.col -->
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
-          <!-- /.col -->
         </div>
       </form>
     </div>
-    <!-- /.login-card-body -->
   </div>
 </div>
 <!-- /.login-box -->

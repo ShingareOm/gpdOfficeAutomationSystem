@@ -1,4 +1,9 @@
 <?php if(!isset($conn)){ include 'db_connect.php'; } 
+
+if (isset($letter_id)) {	
+	$qry = $conn->query("SELECT * FROM gpd_users WHERE user_id = (SELECT letter_creator_user_id		FROM gpd_letters WHERE letter_id = $letter_id)");
+	$row2 = $qry->fetch_assoc();
+}
 ?>
 <div class="col-lg-12">
 	<div class="card card-outline card-primary">
@@ -10,7 +15,7 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="" class="control-label">Name</label>
-					<input type="text" class="form-control form-control-sm" name="name" value="<?php echo isset( $_SESSION["login_user_name"]) ? $_SESSION["login_user_name"]." ".$_SESSION["login_user_surname"] : '' ?>" readonly>
+					<input type="text" class="form-control form-control-sm" name="name" value="<?php echo isset( $row2["user_name"]) ? $row2["user_name"]." ".$row2["user_surname"] : '' ?>" readonly>
 				</div>
 			</div>
 			<div class="col-md-6">

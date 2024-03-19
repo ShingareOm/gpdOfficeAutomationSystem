@@ -7,7 +7,7 @@
     		if (!in_array($_SESSION['login_user_type_id'], $array)): ?>
     			<div class="card-tools">
         			<a class="btn btn-block btn-sm btn-default btn-flat border-primary" href="./index.php?page=new_letter">
-		           		<i class="fa fa-plus"></i> Add New project
+		           		<i class="fa fa-plus"></i> Add New letter
         			</a>
     			</div>
     	<?php endif; ?>
@@ -53,7 +53,7 @@
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row = $qry->fetch_assoc()):
                   $status = $row['letter_status'];
-                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
+                  $prog = ($status == 4) ? 100 : ($status * 20); // Assuming Done is 100%
                 
                 ?>
 					<tr>
@@ -74,10 +74,10 @@
 		                      Action
 		                    </button>
 		                    <div class="dropdown-menu" style="">
-		                      <a class="dropdown-item view_project" href="./index.php?page=view_project&id=<?php echo $row['letter_id'] ?>" data-id="<?php echo $row['letter_id'] ?>">View</a>
+		                      <a class="dropdown-item view_project" href="./index.php?page=view_letter&id=<?php echo $row['letter_id'] ?>" data-id="<?php echo $row['letter_id'] ?>">View</a>
 		                      <?php if($_SESSION['login_user_type_id'] != 4 | $_SESSION['login_user_type_id'] != 5 ): ?>
 								<div class="dropdown-divider"></div>
-		                      <a class="dropdown-item" href="./index.php?page=edit_project&id=<?php echo $row['letter_id'] ?>">Edit</a>
+		                      <a class="dropdown-item" href="./index.php?page=edit_letter&id=<?php echo $row['letter_id'] ?>">Edit</a>
 		                      <div class="dropdown-divider"></div>
 		                      <a class="dropdown-item delete_project" href="javascript:void(0)" data-id="<?php echo $row['letter_id'] ?>">Delete</a>
 		                  <?php endif; ?>

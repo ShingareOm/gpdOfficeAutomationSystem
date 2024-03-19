@@ -14,25 +14,12 @@ if($_SESSION['login_user_type_id'] != 1)
   </div>
   <hr>
   <?php 
-    $where = "";
-    if($_SESSION['login_user_type_id'] == 2){
-      $where = " where user_id = '{$_SESSION['login_user_id']}' ";
-    }elseif($_SESSION['login_user_type_id'] == 3){
-      $where = " where concat('[',REPLACE(user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_type_id']}]%' ";
-    }
-     $where2 = "";
-    if($_SESSION['login_user_type_id'] == 2){
-      $where2 = " where user_id = '{$_SESSION['login_user_id']}' ";
-    }elseif($_SESSION['login_user_type_id'] == 3){
-      $where2 = " where concat('[',REPLACE(p.user_ids,',','],['),']') LIKE '%[{$_SESSION['login_user_type_id']}]%' ";
-    }
-    ?>
         
       <div class="row">
         <div class="col-md-8">
         <div class="card card-outline card-success">
           <div class="card-header">
-            <b>Project Progress</b>
+            <b>Letter Progress</b>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
@@ -71,7 +58,7 @@ if($_SESSION['login_user_type_id'] != 1)
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row = $qry->fetch_assoc()):
                   $status = $row['letter_status'];
-                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
+                  $prog = ($status == 4) ? 100 : ($status * 20); // Assuming Done is 100%
                 ?>
                   <tr>
                       <td>
@@ -101,7 +88,7 @@ if($_SESSION['login_user_type_id'] != 1)
                           ?>
                       </td>
                       <td>
-                        <a class="btn btn-primary btn-sm" href="./index.php?page=view_project&id=<?php echo $row['letter_id'] ?>">
+                        <a class="btn btn-primary btn-sm" href="./index.php?page=view_letter&id=<?php echo $row['letter_id'] ?>">
                               <i class="fas fa-folder">
                               </i>
                               View

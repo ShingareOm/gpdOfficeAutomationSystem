@@ -27,7 +27,7 @@
             </a>
           </li>  
           <li class="nav-item">
-            <a href="#" class="nav-link nav-edit_project nav-view_project">
+            <a href="#" class="nav-link nav-Letters nav-Letters ">
               <i class="nav-icon fas fa-layer-group"></i>
               <p>
                 Letters
@@ -58,13 +58,17 @@
                   <p>Own Letters</p>
                 </a>
               </li>
-            <?php endif; ?>
-          <li class="nav-item">
-                <a href="./index.php?page=task_list" class="nav-link nav-task_list">
-                  <i class="fas fa-tasks nav-icon"></i>
-                  <p>Remark System</p>
-                </a>
-          </li>
+              <?php endif; ?>
+              
+              
+              <?php if($_SESSION['login_user_type_id'] != 2 ): ?>
+                <li class="nav-item">
+                  <a href="./index.php?page=task_list" class="nav-link nav-task_list">
+                    <i class="fas fa-tasks nav-icon"></i>
+                    <p>Remark System</p>
+                  </a>
+                </li>
+                <?php endif; ?>
          
            <li class="nav-item">
                 <a href="./index.php?page=reports" class="nav-link nav-reports">
@@ -73,7 +77,7 @@
                 </a>
           </li>
            <li class="nav-item">
-                <a href="./index.php?page=print_letter" class="nav-link nav-new_letter tree-item">
+                <a href="./index.php?page=print_letter" class="nav-link nav-   tree-item">
                   <i class="nav-icon fas fa-print"></i>
                   <p>Print letter</p>
                 </a>

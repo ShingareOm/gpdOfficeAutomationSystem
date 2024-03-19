@@ -19,7 +19,7 @@ if($_SESSION['login_user_type_id'] != 1)
         <div class="col-md-8">
         <div class="card card-outline card-success">
           <div class="card-header">
-            <b>Project Progress</b>
+            <b>Letter Progress</b>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
@@ -47,7 +47,9 @@ if($_SESSION['login_user_type_id'] != 1)
                   $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
                 }
                 elseif($_SESSION['login_user_type_id'] == 3){
-                  $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
+                  // $where = " WHERE letter_creator_user_id = '{$_SESSION['login_user_id']}'";
+                  $where = " WHERE letter_status = 2 AND letter_creator_user_id IN ( SELECT user_id FROM gpd_teacher WHERE department_id = ( SELECT department_id FROM gpd_hod WHERE user_id = '{$_SESSION['login_user_id']}' ))";
+
                 }
                 elseif($_SESSION['login_user_type_id'] == 4){
                   $where = " WHERE letter_status = '3'";
@@ -58,7 +60,7 @@ if($_SESSION['login_user_type_id'] != 1)
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row = $qry->fetch_assoc()):
                   $status = $row['letter_status'];
-                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
+                  $prog = ($status == 4) ? 100 : ($status * 20); // Assuming Done is 100%
                 
                 ?>
                   <tr>
@@ -89,7 +91,7 @@ if($_SESSION['login_user_type_id'] != 1)
                           ?>
                       </td>
                       <td>
-                        <a class="btn btn-primary btn-sm" href="./index.php?page=view_project&id=<?php echo $row['letter_id'] ?>">
+                        <a class="btn btn-primary btn-sm" href="./index.php?page=view_letter&id=<?php echo $row['letter_id'] ?>">
                               <i class="fas fa-folder">
                               </i>
                               View

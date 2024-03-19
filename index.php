@@ -124,7 +124,7 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Designed by Copyright &copy; 2024 <a href="https://www.omshingare.me/">omshingare.me</a></strong>
+    <strong>Designed by <a href="https://www.omshingare.me/">omshingare.me</a> havin' Copyright &copy; 2024 - <?php $current_year = date('Y'); echo $current_year;?> </strong>
     <div class="float-right d-none d-sm-inline-block">
       <b><?php echo $_SESSION['system']['name'] ?></b>
     </div>

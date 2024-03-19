@@ -1,58 +1,41 @@
 <?php 
+$stat = array("teacher","hod","lipik","principal");
 include 'db_connect.php';
+session_start();
 if(isset($_GET['id'])){
-	$qry = $conn->query("SELECT * FROM task_list where id = ".$_GET['id'])->fetch_array();
-	foreach($qry as $k => $v){
+	$qry = $conn->query("SELECT * FROM gpd_letters where letter_id = ".$_GET['id']);
+	$row = $qry->fetch_assoc();
+	foreach($row as $k => $v){
 		$$k = $v;
 	}
 }
 ?>
+
+
+
 <div class="container-fluid">
 	<form action="" id="manage-task">
-		<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-		<input type="hidden" name="project_id" value="<?php echo isset($_GET['pid']) ? $_GET['pid'] : '' ?>">
+		<input type="hidden" name="letter_id" value="<?php echo isset($_GET['pid']) ? $_GET['pid'] : '' ?>">
 		<div class="form-group">
-			<label for="">Task</label>
-			<input type="text" class="form-control form-control-sm" name="task" value="<?php echo isset($task) ? $task : '' ?>" required>
+			<label for="">Remark</label>
+			<input type="text" class="form-control form-control-sm" name="<?php echo 'letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks'; ?>" value="<?php echo isset($row['letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks']) ? $row['letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks'] : ''; ?>" required>
 		</div>
-		<div class="form-group">
-			<label for="">Description</label>
-			<textarea name="description" id="" cols="30" rows="10" class="summernote form-control">
-				<?php echo isset($description) ? $description : '' ?>
-			</textarea>
-		</div>
-		<div class="form-group">
-			<label for="">Status</label>
-			<select name="status" id="status" class="custom-select custom-select-sm">
-				<option value="1" <?php echo isset($status) && $status == 1 ? 'selected' : '' ?>>Pending</option>
-				<option value="2" <?php echo isset($status) && $status == 2 ? 'selected' : '' ?>>On-Progress</option>
-				<option value="3" <?php echo isset($status) && $status == 3 ? 'selected' : '' ?>>Done</option>
-			</select>
-		</div>
+		<input type="hidden" name="letter_status" value="<?php echo $row['letter_status'] + 1 ?>">
 	</form>
 </div>
 
-<script>
-	$(document).ready(function(){
+<script>    
 
 
-	$('.summernote').summernote({
-        height: 200,
-        toolbar: [
-            [ 'style', [ 'style' ] ],
-            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
-            [ 'fontname', [ 'fontname' ] ],
-            [ 'fontsize', [ 'fontsize' ] ],
-            [ 'color', [ 'color' ] ],
-            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
-            [ 'table', [ 'table' ] ],
-            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]
-        ]
-    })
-     })
-    
+
+
     $('#manage-task').submit(function(e){
     	e.preventDefault()
+		var formData = new FormData($(this)[0]);
+        formData.forEach(function(value, key){
+            console.log(key + ": " + value);
+        });
+
     	start_load()
     	$.ajax({
     		url:'ajax.php?action=save_task',
@@ -63,12 +46,15 @@ if(isset($_GET['id'])){
 		    method: 'POST',
 		    type: 'POST',
 			success:function(resp){
+			console.log(resp);
+
 				if(resp == 1){
 					alert_toast('Data successfully saved',"success");
 					setTimeout(function(){
 						location.reload()
 					},1500)
 				}
+
 			}
     	})
     })
