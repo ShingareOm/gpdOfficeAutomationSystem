@@ -1,8 +1,10 @@
 <?php if(!isset($conn)){ include 'db_connect.php'; } 
 
 if (isset($letter_id)) {	
-	$qry = $conn->query("SELECT * FROM gpd_users WHERE user_id = (SELECT letter_creator_user_id		FROM gpd_letters WHERE letter_id = $letter_id)");
+	$qry = $conn->query("SELECT * FROM gpd_users WHERE user_id = (SELECT letter_creator_user_id	FROM gpd_letters WHERE letter_id = $letter_id)");
 	$row2 = $qry->fetch_assoc();
+}else{
+	$row2 = ["user_name" => $_SESSION['login_user_name'],"user_surname" => $_SESSION['login_user_surname']];
 }
 ?>
 <div class="col-lg-12">

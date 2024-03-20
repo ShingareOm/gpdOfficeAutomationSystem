@@ -8,13 +8,11 @@ if($_SESSION['login_user_type_id'] != 1)
  <div class="col-12">
           <div class="card">
             <div class="card-body">
-              Welcome <?php echo $_SESSION['login_user_name'] ?>!
+              Welcome <?php echo $_SESSION['login_user_name']." ".$_SESSION['login_user_surname']  ?>!
             </div>
           </div>
   </div>
-  <hr>
-  <?php 
-        
+  <hr>        
       <div class="row">
         <div class="col-md-8">
         <div class="card card-outline card-success">
@@ -58,7 +56,7 @@ if($_SESSION['login_user_type_id'] != 1)
                 $qry = $conn->query("SELECT * FROM gpd_letters $where order by letter_creator_user_id asc");
                 while($row = $qry->fetch_assoc()):
                   $status = $row['letter_status'];
-                  $prog = ($status == 4) ? 100 : ($status * 20); // Assuming Done is 100%
+                  $prog = ($status == 4) ? 100 : ($status * 25); // Assuming Done is 100%
                 ?>
                   <tr>
                       <td>
