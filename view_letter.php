@@ -86,21 +86,20 @@ if($row = $qry->fetch_assoc()){
 							<?php endif;?>
 						</thead>
 						<tbody>
-    <?php 
-    $i = 1;
-    
-    $tasks = $conn->query("SELECT letter_hod_remarks, letter_lipik_remarks, letter_principal_remarks FROM gpd_letters WHERE letter_id = $letter_id order by letter_id asc");
-    if($_SESSION['login_user_type_id'] == 2 | $_SESSION['login_user_type_id'] == 1 ){
-        // If the user type is 1 (Teacher), display all three remarks sequentially.
-        while($row3 = $tasks->fetch_assoc()):
-            foreach(['hod', 'lipik', 'principal'] as $type){
-                $remark = $row3['letter_'.$type.'_remarks'];
-				$trans = get_html_translation_table(HTML_ENTITIES,ENT_QUOTES);
-				unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
-				$desc = strtr(html_entity_decode($row['letter_content']),$trans);
-				$desc = str_replace(array("<li>", "</li>"), array("", ", "), $desc);
-                if(!empty($remark)){ // Check if the remark is not empty.
-    ?>
+					<?php 
+						$i = 1;
+						
+						$tasks = $conn->query("SELECT letter_hod_remarks, letter_lipik_remarks, letter_principal_remarks FROM gpd_letters WHERE letter_id = $letter_id order by letter_id asc");
+						if($_SESSION['login_user_type_id'] == 2 | $_SESSION['login_user_type_id'] == 1 ){
+							while($row3 = $tasks->fetch_assoc()):
+								foreach(['hod', 'lipik', 'principal'] as $type){
+									$remark = $row3['letter_'.$type.'_remarks'];
+									$trans = get_html_translation_table(HTML_ENTITIES,ENT_QUOTES);
+									unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
+									$desc = strtr(html_entity_decode($row['letter_content']),$trans);
+									$desc = str_replace(array("<li>", "</li>"), array("", ", "), $desc);
+									if(!empty($remark)){ 
+					?>
                     <tr>
                         <td class="text-center"><?php echo $type; ?></td>
                         <td><b><?php echo ucwords($remark); ?></b></td>
@@ -127,7 +126,6 @@ if($row = $qry->fetch_assoc()){
             }
         endwhile;
     } else {
-        // Original logic for other user types.
         while($row3 = $tasks->fetch_assoc()):
             $trans = get_html_translation_table(HTML_ENTITIES,ENT_QUOTES);
             unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
@@ -139,10 +137,9 @@ if($row = $qry->fetch_assoc()){
 			                        <td class="">
 										<b>
 											<?php 
-									
-									echo (!empty(ucwords($row['letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks'])))? 		ucwords($row['letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks']) : "<span class='badge badge-danger'>Not Reviewed Yet</span>";					
-									
-									?></b></td>
+												echo (!empty(ucwords($row['letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks'])))? 		ucwords($row['letter_'.$stat[$_SESSION['login_user_type_id'] - 2].'_remarks']) : "<span class='badge badge-danger'>Not Reviewed Yet</span>";					
+											?>
+										</b></td>
 			                        <td class=""><p class="truncate"><?php echo strip_tags($desc) ?></p></td>
 			                        <td>
 			                        	<?php 

@@ -33,7 +33,7 @@ if($_SESSION['login_user_type_id'] != 1)
                 </colgroup>
                 <thead>
                   <th>#</th>
-                  <th>Letters</th>
+                  <th>Letter Title</th>
                   <th>Progress</th>
                   <th>Status</th>
                   <th></th>

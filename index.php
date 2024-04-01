@@ -24,7 +24,6 @@
   <?php include 'topbar.php' ?>
   <?php include 'sidebar.php' ?>
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
   	 <div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true">
 	    <div class="toast-body text-white">
@@ -43,23 +42,18 @@
             <hr class="border-primary">
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
          <?php 
             $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             if(!file_exists($page.".php")){
-                include '404.html';
+                include '/errors/404.html';
             }else{
             include $page.'.php';
-
             }
           ?>
       </div><!--/. container-fluid -->
     </section>
-    <!-- /.content -->
     <div class="modal fade" id="confirm_modal" role='dialog'>
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
@@ -114,27 +108,15 @@
     </div>
   </div>
   </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
   </aside>
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Designed by <a href="https://www.omshingare.me/">omshingare.me</a> havin' Copyright &copy; 2024 - <?php $current_year = date('Y'); echo $current_year;?> </strong>
+    <strong>Designed by <a href="https://www.omshingare.me/">omshingare.me</a> &copy; 2024 - <?php $current_year = date('Y'); echo $current_year;?> </strong>
     <div class="float-right d-none d-sm-inline-block">
       <b><?php echo $_SESSION['system']['name'] ?></b>
     </div>
   </footer>
 </div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<!-- Bootstrap -->
 <?php include 'footer.php' ?>
 </body>
 </html>

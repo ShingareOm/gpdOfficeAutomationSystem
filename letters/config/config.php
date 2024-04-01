@@ -15,8 +15,6 @@ $roles = array(
   3 => "HOD",
 );
 
-// Assuming $department_id and $user_type_id are already defined
-
 return [
   'title'      => $letter_title,
   'dateFormat' => '%d %B %Y',
